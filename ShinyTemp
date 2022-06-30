@@ -1,0 +1,217 @@
+```{r include=FALSE, echo=FALSE, message=FALSE}
+
+if (!require(leaflet)){install.packages("leaflet"); library(leaflet)}
+if (!require(rgdal)){install.packages("rgdal"); library(rgdal)}
+if (!require(spdplyr)) {install.packages("spdplyr"); library(spdplyr)}
+if (!require(sp)){install.packages("sp"); library(sp)}
+if (!require(sf)) {install.packages("sf"); library(sf)}
+if (!require(geojsonio)) {install.packages("geojsonio"); library(geojsonio)}
+if (!require(rmapshaper)) {install.packages("rmapshaper"); library(rmapshaper)}
+if (!require(geojson)) {install.packages("geojson"); library(geojson)}
+if (!require(raster)) {install.packages("raster"); library(raster)}
+
+### Working Directory wählen und überprüfen
+getwd()
+
+### Notwendige Packages laden 
+if (!require(leaflet)) {install.packages("leaflet"); library(leaflet)}
+if (!require(rgdal)) {install.packages("rgdal"); library(rgdal)}
+if (!require(dplyr)) {install.packages("dplyr"); library(dplyr)}
+if (!require(geojsonio)) {install.packages("geojsonio"); library(geojsonio)}
+if (!require(sf)) {install.packages("sf"); library(sf)}
+
+#Daten laden: Jan
+file0 <- "monthupd_temp202012.zip"
+# unzip data
+unzip("monthupd_temp202012.zip")
+#read data in with the sf package
+tempJan <- st_read("lead15_Jan_temp.shp") 
+#Daten ins richtige Georeferenzsystem bringen
+tempJan <- st_transform(tempJan, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")) 
+
+#Daten laden: Februar
+file1 <- "monthupd_temp202101(1).zip"
+# unzip data
+unzip("monthupd_temp202101(1).zip")
+#read data in with the sf package
+tempFeb <- st_read("lead15_Feb_temp.shp") 
+#Daten ins richtige Georeferenzsystem bringen
+tempFeb <- st_transform(tempFeb, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"))
+
+#Daten laden: März
+file2 <- "monthupd_temp202102.zip"
+# unzip data
+unzip("monthupd_temp202102.zip")
+#read data in with the sf package
+tempMar <- st_read("lead15_Mar_temp.shp")
+#Daten ins richtige Georeferenzsystem bringen
+tempMar <- st_transform(tempMar, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")) 
+
+#Daten laden:April
+file3 <- "monthupd_temp202103.zip"
+# unzip data
+unzip("monthupd_temp202103.zip")
+#read data in with the sf package
+tempApr <- st_read("lead15_Apr_temp.shp")
+#Daten ins richtige Georeferenzsystem bringen
+tempApr <- st_transform(tempApr, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")) 
+
+#Daten laden: May
+file4 <- "monthupd_temp202104.zip"
+# unzip data
+unzip("monthupd_temp202104.zip")
+#read data in with the sf package
+tempMay <- st_read("lead15_May_temp.shp")
+#Daten ins richtige Georeferenzsystem bringen
+tempMay <- st_transform(tempMay, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")) 
+
+#Daten laden: Juni
+file5 <- "monthupd_temp202105.zip"
+# unzip data
+unzip("monthupd_temp202105.zip")
+#read data in with the sf package
+tempJun <- st_read("lead15_Jun_temp.shp")
+#Daten ins richtige Georeferenzsystem bringen
+tempJun <- st_transform(tempJun, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")) 
+
+#Daten laden: July
+file6 <- "monthupd_temp202106.zip"
+# unzip data
+unzip("monthupd_temp202106.zip")
+#read data in with the sf package
+tempJul <- st_read("lead15_Jul_temp.shp") 
+#Daten ins richtige Georeferenzsystem bringen
+tempJul <- st_transform(tempJul, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")) 
+
+#Daten laden: August
+file7 <- "monthupd_temp202107.zip"
+# unzip data
+unzip("monthupd_temp202107.zip")
+#read data in with the sf package
+tempAug <- st_read("lead15_Aug_temp.shp") 
+#Daten ins richtige Georeferenzsystem bringen
+tempAug <- st_transform(tempAug, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")) 
+
+#Daten laden:  September
+file8 <- "monthupd_temp202108.zip"
+# unzip data
+unzip("monthupd_temp202108.zip")
+#read data in with the sf package
+tempSep <- st_read("lead15_Sep_temp.shp")
+#Daten ins richtige Georeferenzsystem bringen
+tempSep <- st_transform(tempSep, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")) 
+
+#Daten laden: Oktober
+file9 <- "monthupd_temp202109.zip"
+# unzip data
+unzip("monthupd_temp202109.zip")
+#read data in with the sf package
+tempOct <- st_read("lead15_Oct_temp.shp") 
+#Daten ins richtige Georeferenzsystem bringen
+tempOct <- st_transform(tempOct, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"))
+#Daten laden: Monatsdurchschnittstemperatur Forecast November
+file10 <- "monthupd_temp202110.zip"
+# unzip data
+unzip("monthupd_temp202110.zip")
+#read data in with the sf package
+tempNov <- st_read("lead15_Nov_temp.shp") 
+#Daten ins richtige Georeferenzsystem bringen
+tempNov <- st_transform(tempNov, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"))
+
+#Daten laden: December
+file11 <- "monthupd_temp202111.zip"
+# unzip data
+unzip("monthupd_temp202111.zip")
+#read data in with the sf package
+tempDec <- st_read("lead15_Dec_temp.shp")
+#Daten ins richtige Georeferenzsystem bringen
+tempDec <- st_transform(tempDec, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")) 
+
+# DataFrame des ganzen Jahres erstellen
+tempyear21 <- rbind(tempJan, tempFeb, tempMar, tempApr, tempMay, tempJun, tempJul, tempAug, tempSep , tempOct, tempNov, tempDec)
+#Georeferenzierung überprüfen
+crs(tempFeb)
+
+##°C Spalte generieren
+tempyear21$TempC <- 5 / 9 * (tempyear21$Prob - 32)
+tempyear21 <- tempyear21 %>% mutate(
+  "TempC" = 5 / 9 * (Prob - 32),
+  "RoundedTempC" = round(TempC, digits = 0))
+
+
+### Shiny App generieren
+#Notwenidge Packages 
+if (!require(leaflet)) {install.packages("leaflet"); library(leaflet)}
+if (!require(shiny)){install.packages("shiny"); library(shiny)}
+if (!require(RColorBrewer)){install.packages("RColorBrewer"); library(RColorBrewer)}
+
+# Slider Input erstellen (Je Monat eine Ziffer)
+tempyear21$values <- NA 
+tempyear21$values <- c(1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8,9,9,9,9,9,10,10,10,10,10,10,10,11,11,11,11,11,11,11,11,12,12,12,12,12,12,12,12)
+
+
+#User interface generieren (Input)
+ui <- bootstrapPage(
+  tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
+  leafletOutput("map", width = "100%", height = "100%"),
+  absolutePanel(top = 10, right = 10,
+                style="z-index:500;", # legend over my map (map z = 400)
+                tags$h3("Average Temperature in °C"), 
+                sliderInput("periode", "Months 2021",
+                            min(tempyear21$values),
+                            max(tempyear21$values),
+                            value = min(tempyear21$values), # !
+                            step = 1,
+                            animate=TRUE, # add play button
+                            sep = ""
+                )
+  )
+)
+
+
+##Farbgebung bestimmen 
+#Notwndiges Package
+if (!require(classInt)){install.packages("classInt"); library(classInt)}
+library(RColorBrewer)
+
+n <- 5 # number of categories
+pal <- RColorBrewer::brewer.pal(n, "YlOrRd")
+ivar <- classInt::classIntervals(
+  tempyear21$RoundedTempC, n=n, style="quantile"
+) 
+tempyear21$colcode <- classInt::findColours(ivar, pal) #Spalte mit Hex Color Code für jeden °C Wert erstellen, nach Definition der Pal
+legend_names <- names(attr(tempyear21$colcode, "table"))
+
+# Output generieren 
+server <- function(input, output, session) {        
+  # static map elements
+  output$map <- renderLeaflet({
+    leaflet(options = leafletOptions(minZoom = 3, maxZoom = 6)) |> addTiles() |> 
+      fitBounds(-49.57,24.91,-166.99,68.00) |>
+      addLegend(position="topleft", colors=pal, labels=legend_names)
+  })
+
+  
+  
+#Visualiesierung 
+  map_proxy <- leafletProxy("map", session)
+
+  # react on slider changes (Reaktivität einstellen)
+  observeEvent(input$periode, {
+    dat <- subset(tempyear21, values == input$periode)
+    map_proxy |> leaflet::clearShapes() |>
+      leaflet::addPolygons(
+        data=dat,
+        weight=1,
+        color=dat$colcode, # border
+        opacity=1,
+        fillColor=dat$colcode 
+      ) 
+  })  
+}
+
+```
+
+``` {r echo=FALSE}
+shinyApp(ui, server)
+```
